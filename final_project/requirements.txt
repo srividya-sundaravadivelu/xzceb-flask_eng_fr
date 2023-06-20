@@ -1,4 +1,5 @@
-Flask==1.1.2
+Flask
+Jinja2
 Flask-WTF==0.14.3
 deep_translator
 python-dotenv==0.13.0

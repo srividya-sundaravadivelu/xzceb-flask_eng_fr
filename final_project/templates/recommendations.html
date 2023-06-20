@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Recommendations</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333333;
+    }
+    #book-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .book-image {
+      width: 100%;
+      height: auto;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Book Recommendations</h1>
+
+  <div id="book-grid"></div>
+  
+  <script>
+    // Fetch book data from CSV file
+   fetch('BX-Books.csv')
+  .then(response => {
+    if (response.ok) {
+      console.log('Fetch successful');
+      return response.text();
+    } else {
+      console.log('Fetch failed');
+      throw new Error('Fetch failed');
+    }
+  })
+  .then(data => {
+    const books = parseCSV(data);
+    const bookGrid = document.getElementById('book-grid');
+    books.slice(1, 26).forEach(book => { // Fetching first 25 books (excluding header)
+      const bookImage = createBookImageElement(book);
+      bookGrid.appendChild(bookImage);
+    });
+  });
+
+function parseCSV(csv) {
+  const lines = csv.split('\n');
+  const books = [];
+  for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(';');
+    if (values.length >= 7) {
+      const book = {
+        ISBN: values[0].replace(/"/g, ''),
+        Title: values[1].replace(/"/g, ''),
+        Author: values[2].replace(/"/g, ''),
+        Year: values[3].replace(/"/g, ''),
+        Publisher: values[4].replace(/"/g, ''),
+        Image_URL_S: values[5].replace(/"/g, ''),
+        Image_URL_M: values[6].replace(/"/g, ''),
+        Image_URL_L: values[7].replace(/"/g, '')
+      };
+      books.push(book);
+    }
+  }
+  return books;
+}
+
+function createBookImageElement(book) {
+  const bookImage = document.createElement('img');
+  bookImage.src = book.Image_URL_L;
+  bookImage.alt = book.Title;
+  bookImage.classList.add('book-image');
+  bookImage.addEventListener('click', () => {
+    const bookISBN = book['ISBN'];
+    window.location.href = '/book_details/' + encodeURIComponent(bookISBN);
+    });
+  return bookImage;
+}
+
+  </script>
+
+</body>
+</html>

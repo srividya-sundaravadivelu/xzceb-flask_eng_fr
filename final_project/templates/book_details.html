@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Details</title>
+</head>
+<body>
+  <h1>Book Details</h1>
+
+  {% if book %}    
+    <h3>{{ book['Book-Title'] }}</h3>
+    <p>Author: {{ book['Book-Author'] }}</p>
+    <p>Year: {{ book['Year-Of-Publication'] }}</p>
+    <p>Publisher: {{ book['Publisher'] }}</p>
+    <p>ISBN: {{ book['ISBN'] }}</p>
+    <img src="{{ book['Image-URL-M'] }}" alt="{{ book['Book-Title'] }}">
+    <script>
+        console.log({{ book | tojson }});
+      </script>
+  {% else %}
+    <p>Book not found.</p>
+  {% endif %}
+  
+
+  <div class="recommendations">
+    <h2 class="recommendations-title">You may also like</h2>
+    <div class="recommended-books"></div>
+  </div>
+  
+</body>
+</html>

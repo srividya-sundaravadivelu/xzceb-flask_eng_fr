@@ -4,3 +4,9 @@ Flask-WTF==0.14.3
 deep_translator
 python-dotenv==0.13.0
 pyJWT==1.7.1
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+
